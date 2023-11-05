@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .title }}</title>
+</head>
+
+<body>
+<h2>{{ .head }}</h2>
+<h3>用户登录</h3><br/>
+<form action="/auth/login" method="POST">
+    用户名:<input type="text" name="account"><br/>
+    密码:<input type="password" name="password"><br/>
+    {{ .welcome }}
+    <input type="submit" value="登录">
+    <br/>
+    尚未注册？<a href="/register">注册</a>
+    <br/>
+    {{ .warning }}
+    <br/>
+    <br/>
+    Q：为什么你们招新网页也这么寒酸？<br/>
+    A：因为我们目前没有前端和美工，速速加入我们。
+
+</form>
+</body>
+</html>
