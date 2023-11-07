@@ -1,6 +1,25 @@
 # PlayinHUST 玩在华科
 "玩在华科"网站项目
 
+### 目录结构
+```
+PlayinHUST
+├─common  --数据库jwt功能配置
+├─controller --gin路由处理数据函数
+├─middleware --路由中间件
+├─model --数据模型
+├─public --前端静态资源
+│  └─resource
+│      ├─css
+│      ├─img
+│      ├─js
+│      └─plugins
+├─routes --gin路由配置
+├─template ---前端页面模板
+├─util --功能函数
+└─view --gin路由展示页面函数
+```
+
 ### 如何协作？
 请参考这篇博客，向项目提交Pull Request  
 [github中Pull Request的使用](https://tsailooy.top/2023/10/30/github%E4%B8%ADPullRequest%E7%9A%84%E4%BD%BF%E7%94%A8/)
