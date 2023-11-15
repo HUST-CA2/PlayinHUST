@@ -66,10 +66,6 @@ func UserRegister(ctx *gin.Context) {
 func UserLogin(ctx *gin.Context) {
 	account := ctx.PostForm("account")
 	password := ctx.PostForm("password")
-	user := model.UserAccount{
-		Account:  account,
-		Password: password,
-	}
 
 	//数据验证
 	if len(account) == 0 {
@@ -101,7 +97,7 @@ func UserLogin(ctx *gin.Context) {
 			})
 		} else {
 			//发放token
-			token, err := common.ReleaseToken(user)
+			token, err := common.ReleaseToken(oldAccount)
 			if err != nil {
 				ctx.HTML(200, "login.html", gin.H{
 					"title":   "登录",
@@ -123,9 +119,9 @@ func UserSubmit(ctx *gin.Context) {
 	membergroup := ctx.PostForm("qqgroup")
 	clubinfo := ctx.PostForm("clubinfo")
 
-	userinfo, _ := ctx.Get("username")
+	username, _ := ctx.Get("username")
+	var accountName = username.(string)
 
-	var accountName = userinfo.(string)
 	club := model.ClubInfo{Admin: accountName, ClubName: clubname, MemberGroup: membergroup, ClubInfo: clubinfo}
 
 	err := PlayinHUSTDB.Save(&club)
@@ -144,10 +140,12 @@ func UserSubmit(ctx *gin.Context) {
 
 func UserInfo(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
+	userAccount := user.(model.UserAccount)
+	userdto := model.ToUserDto(userAccount)
 
 	ctx.JSON(200, gin.H{
 		"code": 200,
 		"msg":  "获取信息成功",
-		"data": gin.H{"user": user},
+		"data": gin.H{"user": userdto},
 	})
 }

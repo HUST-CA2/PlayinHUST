@@ -1,9 +1,6 @@
 package view
 
 import (
-	"PlayinHUST/util"
-	"log"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,19 +23,13 @@ func LoginPage(ctx *gin.Context) {
 }
 
 func SubmitPage(ctx *gin.Context) {
-	cookieLogin, err := ctx.Cookie("loginStatus")
-	if err != nil {
-		log.Println(err)
-		ctx.HTML(200, "login.html", gin.H{
-			"title": "登录",
-			"head":  "登录",
-		})
-	} else {
-		accountName := util.GetCookieUsername(cookieLogin)
-		ctx.HTML(200, "submit.html", gin.H{
-			"account": accountName,
-			"title":   "提交",
-			"head":    "提交",
-		})
-	}
+
+	username, _ := ctx.Get("username")
+
+	var accountName = username.(string)
+	ctx.HTML(200, "submit.html", gin.H{
+		"account": accountName,
+		"title":   "提交",
+		"head":    "提交",
+	})
 }

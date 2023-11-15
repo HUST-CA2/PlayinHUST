@@ -30,7 +30,7 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 		//功能页
 		pageroute.GET("/register", view.RegisterPage)
 		pageroute.GET("/login", view.LoginPage)
-		pageroute.GET("/submit", view.SubmitPage)
+		pageroute.GET("/submit", middleware.AuthMiddleware(), view.SubmitPage)
 	}
 
 	//管理静态文件的api，前端请求的img,js,css文件都放到"/src/*"

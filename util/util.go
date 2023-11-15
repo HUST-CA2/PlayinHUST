@@ -3,7 +3,6 @@ package util
 import (
 	"crypto/md5"
 	"fmt"
-	"strings"
 	"time"
 )
 
@@ -21,12 +20,4 @@ func MD5(str string) string {
 	has := md5.Sum(data)
 	md5str := fmt.Sprintf("%x", has) //将[]byte转成16进制
 	return md5str
-}
-
-// getCookieUsername 获取cookie值中的用户名
-func GetCookieUsername(cookieValue string) string {
-	nameidx := strings.LastIndex(cookieValue, ":")
-	accountName := cookieValue[0:nameidx]
-	return accountName
-
 }

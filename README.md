@@ -54,7 +54,7 @@ var (
 )
 ```
 
-然后添加`./gitignore`文件
+然后添加`.gitignore`文件
 ```./gitignore
 # common下的conf.go为配置文件
 

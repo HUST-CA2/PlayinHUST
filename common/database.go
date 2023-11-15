@@ -16,7 +16,6 @@ func init() {
 	if err != nil {
 		panic("failed to connect database" + err.Error())
 	}
-	defer PlayinHUSTDB.Close()
 
 	PlayinHUSTDB.AutoMigrate(&model.ClubInfo{})
 	PlayinHUSTDB.AutoMigrate(&model.UserAccount{})
