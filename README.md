@@ -58,7 +58,7 @@ var (
 ```./gitignore
 # common下的conf.go为配置文件
 
-./common/conf.go
+common/conf.go
 ```
 
 设置好后，打开终端，输入`go run main.go`即可在本地运行
