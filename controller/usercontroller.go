@@ -3,6 +3,7 @@ package controller
 import (
 	"PlayinHUST/common"
 	"PlayinHUST/model"
+	"PlayinHUST/response"
 	"PlayinHUST/util"
 	"fmt"
 	"log"
@@ -116,7 +117,7 @@ func UserLogin(ctx *gin.Context) {
 
 func UserSubmit(ctx *gin.Context) {
 	clubname := ctx.PostForm("clubname")
-	membergroup := ctx.PostForm("qqgroup")
+	membergroup := ctx.PostForm("membergroup")
 	clubinfo := ctx.PostForm("clubinfo")
 
 	username, _ := ctx.Get("username")
@@ -129,13 +130,12 @@ func UserSubmit(ctx *gin.Context) {
 		fmt.Println(err.Error)
 	}
 
-	ctx.HTML(200, "congratulation.html", gin.H{
+	response.SuccessResp(ctx, "提交社团信息成功", gin.H{
 		"account":     accountName,
-		"name":        clubname,
+		"clubname":    clubname,
 		"membergroup": membergroup,
 		"ClubInfo":    clubinfo,
 	})
-
 }
 
 func UserInfo(ctx *gin.Context) {
@@ -143,9 +143,7 @@ func UserInfo(ctx *gin.Context) {
 	userAccount := user.(model.UserAccount)
 	userdto := model.ToUserDto(userAccount)
 
-	ctx.JSON(200, gin.H{
-		"code": 200,
-		"msg":  "获取信息成功",
-		"data": gin.H{"user": userdto},
+	response.SuccessResp(ctx, "获取用户信息成功", gin.H{
+		"user": userdto,
 	})
 }
