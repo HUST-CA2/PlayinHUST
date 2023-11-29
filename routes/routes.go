@@ -10,13 +10,20 @@ import (
 
 func CollectRoutes(r *gin.Engine) *gin.Engine {
 
-	//用户认证api
+	//用户认证
 	authroute := r.Group("/auth")
 	{
 		authroute.POST("/register", controller.UserRegister)
 		authroute.POST("/login", controller.UserLogin)
-		authroute.POST("/submit", middleware.AuthMiddleware(), controller.UserSubmit)
 		authroute.GET("/info", middleware.AuthMiddleware(), controller.UserInfo)
+
+	}
+
+	//用户行为api
+	apiroute := r.Group("/api")
+	{
+		apiroute.DELETE("/deleteClub/:clubname", middleware.AuthMiddleware(), controller.DeleteClub)
+		apiroute.POST("/submitClub", middleware.AuthMiddleware(), controller.SubmitClub)
 	}
 
 	//展示页面
