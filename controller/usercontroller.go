@@ -79,29 +79,6 @@ func UserLogin(ctx *gin.Context) {
 
 }
 
-func UserSubmit(ctx *gin.Context) {
-	clubname := ctx.PostForm("clubname")
-	membergroup := ctx.PostForm("membergroup")
-	clubinfo := ctx.PostForm("clubinfo")
-
-	username, _ := ctx.Get("username")
-	var accountName = username.(string)
-
-	club := model.ClubInfo{Admin: accountName, ClubName: clubname, MemberGroup: membergroup, ClubInfo: clubinfo}
-
-	err := PlayinHUSTDB.Save(&club)
-	if err != nil {
-		fmt.Println(err.Error)
-	}
-
-	response.SuccessResp(ctx, "提交社团信息成功", gin.H{
-		"account":     accountName,
-		"clubname":    clubname,
-		"membergroup": membergroup,
-		"clubinfo":    clubinfo,
-	})
-}
-
 func UserInfo(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
 	userAccount := user.(model.UserAccount)
