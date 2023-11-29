@@ -21,32 +21,17 @@ func UserRegister(ctx *gin.Context) {
 
 	//数据验证
 	if len(account) == 0 {
-		ctx.HTML(200, "register.html", gin.H{
-			"title":   "注册",
-			"head":    "注册",
-			"warning": "账户不能为空",
-		})
+		response.FailedResp(ctx, "账户不能为空", gin.H{})
 	} else if len(password) < 6 {
-		ctx.HTML(200, "register.html", gin.H{
-			"title":   "注册",
-			"head":    "注册",
-			"warning": "密码不能小于6位",
-		})
+		response.FailedResp(ctx, "密码不能小于6位", gin.H{})
 	} else if password != confirm {
-		ctx.HTML(200, "register.html", gin.H{
-			"title":   "注册",
-			"head":    "注册",
-			"warning": "两次密码不一致，请重新输入",
-		})
+		response.FailedResp(ctx, "两次密码不一致", gin.H{})
 	} else {
 		oldAccount := model.UserAccount{}
 		PlayinHUSTDB.Where("account = ?", account).First(&oldAccount)
 		if oldAccount.ID != 0 {
-			ctx.HTML(200, "register.html", gin.H{
-				"title":   "注册",
-				"head":    "注册",
-				"warning": "账户已存在，请更换账户名",
-			})
+
+			response.FailedResp(ctx, "账户已存在，请更换用户名", gin.H{})
 
 		} else {
 			newAccount := model.UserAccount{Account: account, Password: util.MD5(password)}
@@ -55,11 +40,8 @@ func UserRegister(ctx *gin.Context) {
 			if err != nil {
 				fmt.Println(err.Error)
 			}
-			ctx.HTML(200, "login.html", gin.H{
-				"title":   "登录",
-				"head":    "登录",
-				"welcome": "注册成功，请",
-			})
+
+			response.SuccessResp(ctx, "注册成功", gin.H{})
 		}
 	}
 }
@@ -70,46 +52,28 @@ func UserLogin(ctx *gin.Context) {
 
 	//数据验证
 	if len(account) == 0 {
-		ctx.HTML(200, "login.html", gin.H{
-			"title":   "登录",
-			"head":    "登录",
-			"warning": "账户不能为空",
-		})
+		response.FailedResp(ctx, "账户不能为空", gin.H{})
 	} else if len(password) == 0 {
-		ctx.HTML(200, "login.html", gin.H{
-			"title":   "登录",
-			"head":    "登录",
-			"warning": "密码不能为空",
-		})
+		response.FailedResp(ctx, "密码不能为空", gin.H{})
 	} else {
 		oldAccount := model.UserAccount{}
 		PlayinHUSTDB.Where("account = ?", account).First(&oldAccount)
 		if oldAccount.ID == 0 {
-			ctx.HTML(200, "login.html", gin.H{
-				"title":   "登录",
-				"head":    "登录",
-				"warning": "账户不存在，请先注册",
-			})
+
+			response.FailedResp(ctx, "账户不存在，请先注册", gin.H{})
 		} else if util.MD5(password) != oldAccount.Password {
-			ctx.HTML(200, "login.html", gin.H{
-				"title":   "登录",
-				"head":    "登录",
-				"warning": "密码错误",
-			})
+
+			response.FailedResp(ctx, "密码错误", gin.H{})
 		} else {
 			//发放token
 			token, err := common.ReleaseToken(oldAccount)
 			if err != nil {
-				ctx.HTML(200, "login.html", gin.H{
-					"title":   "登录",
-					"head":    "登录",
-					"warning": "系统异常",
-				})
+				response.FailedResp(ctx, "发放token异常", gin.H{})
 				log.Printf("token generate error: %v", err)
 				return
 			}
 
-			ctx.HTML(200, "test.html", gin.H{"token": token})
+			response.SuccessResp(ctx, "获取token成功", gin.H{"token": token})
 		}
 	}
 
@@ -134,7 +98,7 @@ func UserSubmit(ctx *gin.Context) {
 		"account":     accountName,
 		"clubname":    clubname,
 		"membergroup": membergroup,
-		"ClubInfo":    clubinfo,
+		"clubinfo":    clubinfo,
 	})
 }
 
