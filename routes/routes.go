@@ -22,8 +22,11 @@ func CollectRoutes(r *gin.Engine) *gin.Engine {
 	//用户行为api
 	apiroute := r.Group("/api")
 	{
-		apiroute.DELETE("/deleteClub/:clubname", middleware.AuthMiddleware(), controller.DeleteClub)
 		apiroute.POST("/submitClub", middleware.AuthMiddleware(), controller.SubmitClub)
+		apiroute.DELETE("/deleteClub/:clubname", middleware.AuthMiddleware(), controller.DeleteClub)
+
+		apiroute.GET("/getClubs", controller.GetClubs)
+		apiroute.GET("/getClub/:clubname", controller.GetClub)
 	}
 
 	//展示页面
