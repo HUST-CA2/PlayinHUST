@@ -9,7 +9,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 var PlayinHUSTDB *gorm.DB = common.GetDB()

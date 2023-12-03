@@ -11,9 +11,6 @@ import (
 func main() {
 	playinhust := gin.Default()
 
-	DB := common.GetDB()
-	defer DB.Close()
-
 	playinhust.LoadHTMLGlob("./template/*")
 
 	playinhust = routes.CollectRoutes(playinhust)

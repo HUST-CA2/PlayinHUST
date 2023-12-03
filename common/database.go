@@ -5,14 +5,14 @@ import (
 	"io/ioutil"
 	"log"
 
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func init() {
 	//打开数据库连接
 	var err error
-	PlayinHUSTDB, err = gorm.Open(dbdriver, sqlConnection)
+	PlayinHUSTDB, err = gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database" + err.Error())
 	}
